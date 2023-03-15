@@ -20,7 +20,14 @@ type ReplenishmentRepository interface {
 	Stats(int, int) (int, model.Money, error)
 }
 
+// UserRepository
+type UserRepository interface {
+	// FindByEmail return users UUID
+	FindByEmail(string) (string, error)
+}
+
 type Store interface {
 	Wallet() WalletRepository
 	Replenishment() ReplenishmentRepository
+	User() UserRepository
 }

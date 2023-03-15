@@ -11,6 +11,7 @@ type Store struct {
 	db                      *sql.DB
 	walletRepository        *walletRepository
 	replenishmentRepository *replenishmentRepository
+	userRepository          *userRepository
 }
 
 // NewStore constructor that returns an instance of the storage entity.
@@ -33,7 +34,7 @@ func (s *Store) Wallet() store.WalletRepository {
 	return s.walletRepository
 }
 
-// replenishment is used to interact the top layer with the repository through the storage, not bypassing it.
+// Replenishment is used to interact the top layer with the repository through the storage, not bypassing it.
 func (s *Store) Replenishment() store.ReplenishmentRepository {
 	if s.replenishmentRepository != nil {
 		return s.replenishmentRepository
@@ -44,4 +45,17 @@ func (s *Store) Replenishment() store.ReplenishmentRepository {
 	}
 
 	return s.replenishmentRepository
+}
+
+// User is used to interact the top layer with the repository through the storage, not bypassing it.
+func (s *Store) User() store.UserRepository {
+	if s.userRepository != nil {
+		return s.userRepository
+	}
+
+	s.userRepository = &userRepository{
+		store: s,
+	}
+
+	return s.userRepository
 }
