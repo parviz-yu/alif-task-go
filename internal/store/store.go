@@ -17,7 +17,7 @@ type WalletRepository interface {
 // ReplenishmentRepository
 type ReplenishmentRepository interface {
 	// Stats returns the number and amount of replenishments for the month
-	Stats(int) (int, model.Money, error)
+	Stats(int, int) (int, model.Money, error)
 }
 
 type Store interface {
