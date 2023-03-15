@@ -22,5 +22,5 @@ type ReplenishmentRepository interface {
 
 type Store interface {
 	Wallet() WalletRepository
-	replenishment() ReplenishmentRepository
+	Replenishment() ReplenishmentRepository
 }

@@ -52,7 +52,5 @@ func (r *replenishmentRepository) Stats(walletID int, month int) (int, model.Mon
 		return 0, 0, err
 	}
 
-	fmt.Println(total, counter)
-
 	return counter, total, nil
 }
