@@ -82,7 +82,8 @@ func (s *server) registerRouter() {
 // login is used to pass the X-UserId header and does not check the input for validation
 func (s *server) login() http.HandlerFunc {
 	type request struct {
-		Email string `json:"email"`
+		Email    string `json:"email"`
+		WalletID int    `json:"wallet_id,omitempty"`
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -121,7 +122,8 @@ func (s *server) login() http.HandlerFunc {
 		}
 
 		w.Header().Set("X-UserId", user.UUID)
-		s.respond(w, r, http.StatusOK, nil)
+		req.WalletID = walletID
+		s.respond(w, r, http.StatusOK, req)
 	}
 }
 
