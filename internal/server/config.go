@@ -1,11 +1,7 @@
 package server
 
 type Config struct {
-	// Адрес запуска вебсервера
-	BindAddr string
-
-	// Конфиг базы данных — путь
+	BindAddr    string
 	DatabaseURL string
-
-	CacheAddr string
+	CacheAddr   string
 }

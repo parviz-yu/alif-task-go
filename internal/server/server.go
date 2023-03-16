@@ -159,7 +159,7 @@ func (s *server) middleware(next http.Handler) http.Handler {
 		}
 
 		var body []byte
-		if r.Method != http.MethodGet {
+		if r.Method == http.MethodPut {
 			var copyBody []byte
 			copyBody = append(copyBody, body...)
 
