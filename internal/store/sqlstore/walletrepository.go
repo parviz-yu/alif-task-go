@@ -68,6 +68,20 @@ func (w *walletRepository) Balance(walletID int) (*model.Wallet, error) {
 	return wallet, nil
 }
 
+func (w *walletRepository) FindWalletID(userID int) (int, error) {
+	var id int
+	q := `SELECT id FROM wallets WHERE user_id=$1`
+
+	if err := w.store.db.QueryRow(q, userID).Scan(&id); err != nil {
+		if err == sql.ErrNoRows {
+			return 0, store.ErrRecordNotFound
+		}
+		return 0, err
+	}
+
+	return id, nil
+}
+
 func (w *walletRepository) newBalance(walletID int, amount model.Money) (model.Money, error) {
 	wallet, err := w.Balance(walletID)
 	if err != nil {
