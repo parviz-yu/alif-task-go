@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/pyuldashev912/alif-task-go/internal/store/sqlstore"
+	"github.com/redis/go-redis/v9"
 )
 
 func Start(config *Config) error {
@@ -16,7 +17,12 @@ func Start(config *Config) error {
 
 	defer db.Close()
 	store := sqlstore.NewStore(db)
-	srv := newServer(store)
+	cache := redis.NewClient(&redis.Options{
+		Addr:     config.CacheAddr,
+		Password: "",
+		DB:       0,
+	})
+	srv := newServer(store, cache)
 
 	fmt.Println("[INFO] server started...")
 
