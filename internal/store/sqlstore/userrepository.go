@@ -3,6 +3,7 @@ package sqlstore
 import (
 	"database/sql"
 
+	"github.com/pyuldashev912/alif-task-go/internal/model"
 	"github.com/pyuldashev912/alif-task-go/internal/store"
 )
 
@@ -10,16 +11,16 @@ type userRepository struct {
 	store *Store
 }
 
-func (u *userRepository) FindByEmail(email string) (string, error) {
-	q := `SELECT uuid FROM users WHERE email=$1`
-	var uuid string
+func (u *userRepository) FindByEmail(email string) (*model.User, error) {
+	q := `SELECT id, uuid FROM users WHERE email=$1`
+	user := &model.User{}
 
-	if err := u.store.db.QueryRow(q, email).Scan(&uuid); err != nil {
+	if err := u.store.db.QueryRow(q, email).Scan(&user.ID, &user.UUID); err != nil {
 		if err == sql.ErrNoRows {
-			return "", store.ErrRecordNotFound
+			return nil, store.ErrRecordNotFound
 		}
-		return "", err
+		return nil, err
 	}
 
-	return uuid, nil
+	return user, nil
 }
